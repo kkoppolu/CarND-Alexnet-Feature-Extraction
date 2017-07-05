@@ -19,7 +19,8 @@ fc7 = AlexNet(resized, feature_extract=True)
 # HINT: Look at the final layer definition in alexnet.py to get an idea of what this
 # should look like.
 shape = (fc7.get_shape().as_list()[-1], nb_classes)  # use this shape for the weight matrix
-probs = ...
+logits = tf.contrib.layers.fully_connected(fc7, nb_classes)
+probs = tf.nn.softmax(logits)
 
 init = tf.global_variables_initializer()
 sess = tf.Session()
@@ -42,6 +43,6 @@ for input_im_ind in range(output.shape[0]):
     print("Image", input_im_ind)
     for i in range(5):
         print("%s: %.3f" % (sign_names.ix[inds[-1 - i]][1], output[input_im_ind, inds[-1 - i]]))
-    print()
-
-print("Time: %.3f seconds" % (time.time() - t))
+        print()
+        print("Time: %.3f seconds" % (time.time() - t))
+                                
